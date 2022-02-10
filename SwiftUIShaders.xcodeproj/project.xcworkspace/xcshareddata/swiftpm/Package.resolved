@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Shapes",
+        "repositoryURL": "https://github.com/nutterfi/Shapes",
+        "state": {
+          "branch": "main",
+          "revision": "c8478221d55bd1411fd830fd52c62dd763cb7892",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
