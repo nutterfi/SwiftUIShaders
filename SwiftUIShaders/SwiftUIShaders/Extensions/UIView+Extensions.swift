@@ -11,7 +11,7 @@ import SwiftUI
 extension UIView {
   var renderedImage: UIImage {
     UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0.0)
-    let context = UIGraphicsGetCurrentContext()!
+    guard let context = UIGraphicsGetCurrentContext() else { return UIImage() }
     layer.render(in: context)
     let image = UIGraphicsGetImageFromCurrentImageContext()!
     UIGraphicsEndImageContext()
