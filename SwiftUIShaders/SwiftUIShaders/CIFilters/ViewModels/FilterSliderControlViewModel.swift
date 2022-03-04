@@ -9,8 +9,24 @@ import Foundation
 import Combine
 import CoreImage
 
+class FilterToggleControlViewModel: ObservableObject, FilterViewModel {
+
+  @Published var value: Bool
+ 
+  var key: String = ""
+
+  func update(_ newValue: Bool) {
+    self.value = newValue
+  }
+  
+  required init(key: String, value: Any? = nil, attributes: Dictionary<String, Any> = [:]) {
+    self.key = key
+    self.value = value as? Bool ?? false
+  }
+}
+
 // this will be used to load slider control with initial value
-class FilterSliderControlViewModel: ObservableObject {
+class FilterSliderControlViewModel: ObservableObject, FilterViewModel {
   
   let key: String // inputKey supplied by the CIFilter
   @Published var value: Float
@@ -50,7 +66,6 @@ class FilterSliderControlViewModel: ObservableObject {
   }
   
   func update(_ newValue: Float) {
-    print(newValue)
     self.value = newValue
   }
 }

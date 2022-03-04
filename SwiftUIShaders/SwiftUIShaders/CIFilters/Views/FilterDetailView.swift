@@ -25,23 +25,32 @@ import SwiftUI
 
 struct FilterDetailView: View {
   @StateObject var viewModel = FilterDetailViewModel()
-  var filter: CIFilter
+  var item: FilterMenuViewModelItem
   
-  init(filter: CIFilter) {
-    self.filter = filter
+  init(item: FilterMenuViewModelItem) {
+    self.item = item
   }
   
   var filterView: some View {
     VStack {
       Group {
-        Text(filter.name)
+        Text(item.filter.name)
       }
         .foregroundColor(.white)
         .scaledToFit()
       
-      // TODO: Provide support for other types of controls
-      ForEach (0..<viewModel.items.count) { index in
-        FilterSliderControlView(viewModel: viewModel.items[index])
+      // TODO: Provide support for all other possible input types
+      ForEach (0..<viewModel.inputItems.count) { index in
+        let item = viewModel.inputItems[index]
+        switch item {
+        case is FilterSliderControlViewModel:
+          FilterSliderControlView(viewModel: item as! FilterSliderControlViewModel)
+        case is FilterToggleControlViewModel:
+          FilterToggleControlView(viewModel: item as! FilterToggleControlViewModel)
+        default:
+          EmptyView()
+        }
+        
       }
       
       Spacer()
@@ -75,18 +84,18 @@ struct FilterDetailView: View {
       }
     }
     .onAppear() {
-      viewModel.load(filter: filter)
+      viewModel.load(item: item)
     }
   }
 }
 
 struct FilterDetailViewDemo: View {
   let filter = CIFilter(name: "CIHoleDistortion")!
-  let image = CIImage(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "hello", ofType: "png")!))
+  let image = CIImage(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "hello", ofType: "png")!))!
 
   var body: some View {
     VStack {
-      FilterDetailView(filter: filter)
+      FilterDetailView(item: FilterMenuViewModelItem(image: image, filter: filter, name: "Hello", dispatchQueue: .main))
     }
     .onAppear {
       DispatchQueue.main.async {

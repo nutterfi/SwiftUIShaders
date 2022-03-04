@@ -25,6 +25,8 @@
 		29A9FCCC27C8C17C00A5B71F /* FilterDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A9FCCB27C8C17C00A5B71F /* FilterDetailViewModel.swift */; };
 		29A9FCD027C8C9A600A5B71F /* FilterSliderControlViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A9FCCF27C8C9A600A5B71F /* FilterSliderControlViewModel.swift */; };
 		29A9FCD227C8CAC600A5B71F /* FilterSliderControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A9FCD127C8CAC600A5B71F /* FilterSliderControlView.swift */; };
+		29D9F44627CB31AF00465A86 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D9F44527CB31AF00465A86 /* MainMenu.swift */; };
+		29D9F44827CB37C800465A86 /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D9F44727CB37C800465A86 /* FilterViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		29A9FCCB27C8C17C00A5B71F /* FilterDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailViewModel.swift; sourceTree = "<group>"; };
 		29A9FCCF27C8C9A600A5B71F /* FilterSliderControlViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSliderControlViewModel.swift; sourceTree = "<group>"; };
 		29A9FCD127C8CAC600A5B71F /* FilterSliderControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSliderControlView.swift; sourceTree = "<group>"; };
+		29D9F44527CB31AF00465A86 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
+		29D9F44727CB37C800465A86 /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,10 +83,10 @@
 		29200A7627B458200092E649 /* SwiftUIShaders */ = {
 			isa = PBXGroup;
 			children = (
+				29D9F44927CB438400465A86 /* Views */,
 				29A9FCC627C894DA00A5B71F /* CIFilters */,
 				29A9FCC327C88DAA00A5B71F /* Extensions */,
 				29200A7727B458200092E649 /* SwiftUIShadersApp.swift */,
-				29200A8B27B45EA80092E649 /* ShaderTestView.swift */,
 				29200A8527B458770092E649 /* ShaderScene.swift */,
 				29200A7B27B458220092E649 /* Assets.xcassets */,
 				296889AD27C62C9500B6E26D /* hello.png */,
@@ -122,7 +126,6 @@
 		29A9FCCD27C8C95F00A5B71F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				296889AB27C60BD200B6E26D /* FilterMenu.swift */,
 				29A9FCC727C8951600A5B71F /* FilterMenuItem.swift */,
 				29A9FCC927C8961100A5B71F /* FilterDetailView.swift */,
 				29A9FCD127C8CAC600A5B71F /* FilterSliderControlView.swift */,
@@ -136,8 +139,19 @@
 				29A9FCCF27C8C9A600A5B71F /* FilterSliderControlViewModel.swift */,
 				29A9FCC427C88E9000A5B71F /* FilterMenuViewModel.swift */,
 				29A9FCCB27C8C17C00A5B71F /* FilterDetailViewModel.swift */,
+				29D9F44727CB37C800465A86 /* FilterViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		29D9F44927CB438400465A86 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				29D9F44527CB31AF00465A86 /* MainMenu.swift */,
+				29200A8B27B45EA80092E649 /* ShaderTestView.swift */,
+				296889AB27C60BD200B6E26D /* FilterMenu.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,8 +239,10 @@
 				296889AC27C60BD200B6E26D /* FilterMenu.swift in Sources */,
 				29A9FCCA27C8961100A5B71F /* FilterDetailView.swift in Sources */,
 				2980EBF127BCB7E30053E6B6 /* CIFilter+Extensions.swift in Sources */,
+				29D9F44827CB37C800465A86 /* FilterViewModel.swift in Sources */,
 				29A9FCD027C8C9A600A5B71F /* FilterSliderControlViewModel.swift in Sources */,
 				29A9FCC527C88E9000A5B71F /* FilterMenuViewModel.swift in Sources */,
+				29D9F44627CB31AF00465A86 /* MainMenu.swift in Sources */,
 				29A9FCCC27C8C17C00A5B71F /* FilterDetailViewModel.swift in Sources */,
 				29200A8627B458770092E649 /* ShaderScene.swift in Sources */,
 				29A9FCD227C8CAC600A5B71F /* FilterSliderControlView.swift in Sources */,

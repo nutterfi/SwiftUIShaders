@@ -11,6 +11,7 @@ struct FilterMenuViewModelItem {
   var image: CIImage
   var filter: CIFilter
   var name: String
+  var dispatchQueue: DispatchQueue
 }
 
 class FilterMenuViewModel: ObservableObject {
@@ -19,14 +20,14 @@ class FilterMenuViewModel: ObservableObject {
   
   private var filters: [CIFilter] = []
 
-  private var dispatchQueue = DispatchQueue(label: "FilterMenuViewModel")
+  private(set) var dispatchQueue = DispatchQueue(label: "FilterMenuViewModel")
   
   // TODO: provide customized input image
   let image = CIImage(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "hello", ofType: "png")!))
   
   func item(at index: Int) -> FilterMenuViewModelItem? {
     guard index < filters.count else { return nil }
-    return FilterMenuViewModelItem(image: images[index], filter: filters[index], name: names[index])
+    return FilterMenuViewModelItem(image: images[index], filter: filters[index], name: names[index], dispatchQueue: dispatchQueue)
   }
   
   init() {
@@ -41,9 +42,21 @@ class FilterMenuViewModel: ObservableObject {
       var outputImages = [CIImage]()
       var names = [String]()
       let orderedFilterNames = Array(filterNames).sorted()
+      
       orderedFilterNames.forEach { name in
         if let filter = CIFilter(name: name), filter.inputKeys.contains(kCIInputImageKey) {
+          print(filter.attributes)
           filter.setValue(self.image, forKey: kCIInputImageKey)
+          
+          if filter.inputKeys.contains(kCIInputBackgroundImageKey) {
+            filter.setValue(self.image, forKey: kCIInputBackgroundImageKey)
+          }
+          
+          if filter.inputKeys.contains("inputTexture") {
+            filter.setValue(self.image, forKey: "inputTexture")
+            
+          }
+        
           if let outputImage = filter.outputImage {
             filters.append(filter)
             outputImages.append(outputImage)

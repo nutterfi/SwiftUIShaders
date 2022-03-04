@@ -21,28 +21,28 @@ class FilterDetailViewModel: ObservableObject {
   @Published private(set) var state = State.idle
   @Published private(set) var image: CIImage?
   
-  private var filter: CIFilter?
+  private var item: FilterMenuViewModelItem?
   
   private var subscriptions = Set<AnyCancellable>()
-  
-  @Published var items = [FilterSliderControlViewModel]()
+    
+  @Published var inputItems = [FilterViewModel]()
 
-  func load(filter: CIFilter) {
-    self.filter = filter
+  func load(item: FilterMenuViewModelItem) {
+    self.item = item
     self.state = .loading
     loadItems()
   }
   
   func loadItems() {
     inputs().forEach { inputKey in
-      guard let filter = filter,
+      guard let filter = item?.filter,
               let attributes = filter.attributes[inputKey] as? Dictionary<String, Any>,
             let className = attributes[kCIAttributeClass] as? String else {
               return
             }
       
       // TODO: return appropriate view model for className
-      var item: FilterSliderControlViewModel?
+      var item: FilterViewModel?
       switch className {
       case "CIImage": // input image
         break
@@ -52,34 +52,60 @@ class FilterDetailViewModel: ObservableObject {
         if let type = attributes[kCIAttributeType] as? String {
           switch type {
           case kCIAttributeTypeBoolean:
-            break
+            let vm = FilterToggleControlViewModel(key: inputKey, value: attributes[kCIAttributeDefault] as? Bool)
+            vm.$value.sink { [weak self] newValue in
+              self?.item?.dispatchQueue.async {
+                self?.item?.filter.setValue(newValue, forKey: vm.key)
+                DispatchQueue.main.async {
+                  self?.image = self?.item?.filter.outputImage
+                }
+              }
+            }.store(in: &subscriptions)
+            item = vm
           case kCIAttributeTypeCount, kCIAttributeTypeScalar, kCIAttributeTypeInteger, kCIAttributeTypeDistance:
-            item = FilterSliderControlViewModel(key: inputKey, value: 0, attributes: attributes)
+            let vm = FilterSliderControlViewModel(key: inputKey, value: attributes[kCIAttributeDefault], attributes: attributes)
+            
+            vm.$value.sink { [weak self] newValue in
+              self?.item?.dispatchQueue.async {
+                self?.item?.filter.setValue(newValue, forKey: vm.key)
+                DispatchQueue.main.async {
+                  self?.image = self?.item?.filter.outputImage
+                }
+              }
+            }.store(in: &subscriptions)
+            
+            item = vm
+            
           default: break
           }
         } else {
-          item = FilterSliderControlViewModel(key: inputKey, value: 0, attributes: attributes)
+          let vm = FilterSliderControlViewModel(key: inputKey, value: attributes[kCIAttributeDefault], attributes: attributes)
+          vm.$value.sink { [weak self] newValue in
+            self?.item?.dispatchQueue.async {
+              self?.item?.filter.setValue(newValue, forKey: vm.key)
+              DispatchQueue.main.async {
+                self?.image = self?.item?.filter.outputImage
+              }
+            }
+          }.store(in: &subscriptions)
+          
+          item = vm
         }
       default: break
       }
       guard let item = item else { return }
       
-      items.append(item)
-      item.$value.sink { [weak self] newValue in
-        DispatchQueue.main.async {
-          self?.filter?.setValue(newValue, forKey: item.key)
-          self?.image = self?.filter?.outputImage
-        }
-      }.store(in: &subscriptions)
+      inputItems.append(item)
+      
     }
     self.state = .ready
   }
   
   func inputs() -> [String] {
-    filter?.inputKeys ?? []
+    item?.filter.inputKeys ?? []
   }
   
   func outputs() -> [String] {
-    filter?.outputKeys ?? []
+    item?.filter.outputKeys ?? []
   }
 }

@@ -11,9 +11,13 @@ import SwiftUI
 struct FilterMenuItem: View {
   var image: CIImage
   var name: String
+  @State private var cgImage: CGImage?
+  
   var body: some View {
     ZStack {
-      if let cgImage = CIManager.cgImage(from: image) {
+      RoundedRectangle(cornerRadius: 10)
+        .foregroundColor(.secondary)
+      if let cgImage = cgImage {
         Image(uiImage: UIImage(cgImage: cgImage))
           .resizable()
           .scaledToFit()
@@ -22,6 +26,14 @@ struct FilterMenuItem: View {
       VStack {
         Spacer()
         Text(name).scaledToFit()
+      }
+    }
+    .onAppear {
+      DispatchQueue.global().async {
+        let cgImage = CIManager.cgImage(from: image)
+        DispatchQueue.main.async {
+          self.cgImage = cgImage
+        }
       }
     }
   }

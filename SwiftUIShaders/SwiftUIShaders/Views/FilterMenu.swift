@@ -27,7 +27,7 @@ struct FilterMenu: View {
               if let item = viewModel.item(at: index) {
                 let image = viewModel.images[index]
                 NavigationLink {
-                  FilterDetailView(filter: item.filter)
+                  NavigationLazyView(FilterDetailView(item: item))
                 } label: {
                   FilterMenuItem(image: image, name: item.name)
                     .frame(width: 150, height: 150)
