@@ -1,16 +1,14 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Shapes",
-        "repositoryURL": "https://github.com/nutterfi/Shapes",
-        "state": {
-          "branch": "main",
-          "revision": "c8478221d55bd1411fd830fd52c62dd763cb7892",
-          "version": null
-        }
+  "pins" : [
+    {
+      "identity" : "shapes",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nutterfi/Shapes",
+      "state" : {
+        "branch" : "main",
+        "revision" : "46d05f575100e6d7403645ef59386bc7f4a59ea5"
       }
-    ]
-  },
-  "version": 1
+    }
+  ],
+  "version" : 2
 }
